@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from app.schemas.user import UserCreate
-from app.models.user import User
+from app.services.user_service import register_user_service
 
 router = APIRouter(
     prefix="/users",
@@ -9,16 +9,5 @@ router = APIRouter(
 
 @router.post("/register")
 async def register_user(user_data: UserCreate):
-
-    user = User(
-        username=user_data.username,
-        email=user_data.email,
-        hashed_password=user_data.password
-    )
-
-    await user.insert()
-
-    return {
-        "message": "User created successfully"
-    }
+    return await register_user_service(user_data)
     

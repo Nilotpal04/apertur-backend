@@ -5,6 +5,9 @@ from fastapi import FastAPI
 from app.db.database import connect_to_mongodb
 from app.routes.user import router as user_router
 
+from app.core.exception_handler import (
+    register_exception_handlers
+)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -14,8 +17,6 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-app.include_router(user_router)
+register_exception_handlers(app)
 
-@app.get("/")
-async def root():
-    return {"message": "Welcome to Apertur API"}
+app.include_router(user_router)
