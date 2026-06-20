@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-
 app = FastAPI(title="Apertur-API")
 
 @app.get("/")
