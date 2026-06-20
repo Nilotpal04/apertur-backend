@@ -6,6 +6,11 @@ from app.exceptions.user_exception import (
     UsernameAlreadyExistsException
 )
 
+from app.exceptions.auth_exceptions import (
+    InvalidCredentialsException
+)
+from pip._vendor.requests.api import request
+
 def register_exception_handlers(app: FastAPI):
 
     @app.exception_handler(EmailAlreadyExistsException)
@@ -29,5 +34,19 @@ def register_exception_handlers(app: FastAPI):
             status_code=400,
             content={
                 "detail": "Username already registered"
+            }
+        )
+        
+    @app.exception_handler(
+        InvalidCredentialsException
+    )
+    async def invalid_credentials_handler(
+        request: Request,
+        exc: InvalidCredentialsException
+    ):
+        return JSONResponse(
+            status_code=401,
+            content={
+                "detail": "Invalid credentials"
             }
         )
