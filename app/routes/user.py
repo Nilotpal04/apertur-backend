@@ -10,4 +10,3 @@ router = APIRouter(
 @router.post("/register")
 async def register_user(user_data: UserCreate):
     return await register_user_service(user_data)
-    
