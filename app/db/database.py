@@ -3,7 +3,6 @@ from beanie import init_beanie
 import certifi
 from app.core.config import settings
 from app.models.user import User
-import ssl
 
 client = AsyncIOMotorClient(
     settings.mongodb_url,
