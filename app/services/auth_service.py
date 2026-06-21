@@ -7,7 +7,8 @@ from app.schemas.auth import (
 from app.core.security import verify_password
 from app.core.auth import (
     create_access_token,
-    create_refresh_token
+    create_refresh_token,
+    decode_token
 )
 
 from app.exceptions.auth_exceptions import (
@@ -45,3 +46,18 @@ async def login_user_service( login_data: LoginRequest ) -> TokenResponse:
         access_token=access_token,
         refresh_token=refresh_token
     )
+    
+async def refresh_token_service( refresh_token: str ):
+    payload = decode_token(refresh_token)
+    
+    if payload.get("type") != "refresh":
+        raise InvalidCredentialsException()
+    
+    user_id = payload.get("sub")
+    user = await User.get(user_id)
+    
+    access_token = create_access_token(str(user_id))
+    
+    return {
+        "access_token": access_token
+    }
