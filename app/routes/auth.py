@@ -15,4 +15,3 @@ router = APIRouter(
 @router.post("/login", response_model=TokenResponse)
 async def login_user(login_data: LoginRequest):
     return await login_user_service(login_data)
-        

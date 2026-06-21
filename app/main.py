@@ -1,5 +1,4 @@
 from contextlib import asynccontextmanager
-
 from fastapi import FastAPI
 
 from app.db.database import connect_to_mongodb
@@ -15,7 +14,7 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(lifespan=lifespan, title="Apertur API")
 
 register_exception_handlers(app)
 
