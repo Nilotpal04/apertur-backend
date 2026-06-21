@@ -14,4 +14,8 @@ class  UserResponse(BaseModel):
     avatar_url: str | None = None
     
     created_at: datetime
-    
+
+class UpdateProfileRequest(BaseModel):
+    name: str | None = None
+    bio: str | None = None
+    avatar_url: str | None = None
