@@ -36,14 +36,14 @@ Backend API for Apertur, a photography-focused social platform built with FastAP
 ## Project Structure
 
 app/
-├── core/
-├── models/
-├── schemas/
-├── routes/
-├── services/
-├── dependencies/
-├── exceptions/
-└── db/
+|-- core/
+|-- models/
+|-- schemas/
+|-- routes/
+|-- services/
+|-- dependencies/
+|-- exceptions/
+|-- db/
 
 ## Upcoming Features
 
