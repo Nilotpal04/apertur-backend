@@ -10,6 +10,10 @@ from app.services.user_service import (
     update_profile_service,
     get_user_profile_service
 )
+
+from app.schemas.post import PostResponse
+from app.services.post_service import get_user_posts_service
+
 from app.dependencies.auth import CurrentUser
 
 router = APIRouter(
@@ -53,3 +57,7 @@ async def get_user_profile(username: str):
         bio=user.bio,
         avatar_url=user.avatar_url
     )
+
+@router.get("/{username}/posts", response_model=list[PostResponse])
+async def get_user_posts(username: str):
+    return await get_user_posts_service(username)

@@ -20,7 +20,7 @@ async def create_post(post_data: PostCreate, current_user: CurrentUser):
         post_data,
         current_user
     )
-    
+
 @router.get(
     "/{post_id}",
     response_model=PostResponse
