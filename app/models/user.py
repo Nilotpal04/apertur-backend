@@ -7,7 +7,7 @@ class User(Document):
     email: str
     hashed_password: str
     
-    full_name: str | None = None
+    name: str | None = None
     bio: str | None = None
     avatar_url: str | None = None
     

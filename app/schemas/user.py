@@ -19,3 +19,9 @@ class UpdateProfileRequest(BaseModel):
     name: str | None = None
     bio: str | None = None
     avatar_url: str | None = None
+    
+class PublicUserResponse(BaseModel):
+    username: str
+    name: str | None = None
+    bio: str | None = None
+    avatar_url: str | None = None

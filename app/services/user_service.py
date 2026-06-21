@@ -6,7 +6,8 @@ from app.schemas.user import (
 )
 from app.exceptions.user_exception import (
     EmailAlreadyExistsException,
-    UsernameAlreadyExistsException
+    UsernameAlreadyExistsException,
+    UserNotFoundException
 )
 from app.core.security import hash_password
 
@@ -54,5 +55,16 @@ async def update_profile_service(
         setattr(user, field, value)
     user.updated_at = datetime.now(timezone.utc)
     await user.save()
+    
+    return user
+
+async def get_user_profile_service(
+    username: str,    
+):
+    user = await User.find_one(
+        User.username == username
+    )
+    if not user:
+        raise UserNotFoundException()
     
     return user

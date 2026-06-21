@@ -3,7 +3,8 @@ from fastapi.responses import JSONResponse
 
 from app.exceptions.user_exception import (
     EmailAlreadyExistsException,
-    UsernameAlreadyExistsException
+    UsernameAlreadyExistsException,
+    UserNotFoundException
 )
 
 from app.exceptions.auth_exceptions import (
@@ -48,5 +49,19 @@ def register_exception_handlers(app: FastAPI):
             status_code=401,
             content={
                 "detail": "Invalid credentials"
+            }
+        )
+    
+    @app.exception_handler(
+        UserNotFoundException
+    )
+    async def user_not_found_handler(
+        request: Request,
+        exc: UserNotFoundException
+    ):
+        return JSONResponse(
+            status_code=404,
+            content={
+                "detail": "User not found"
             }
         )

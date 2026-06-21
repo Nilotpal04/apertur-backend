@@ -2,9 +2,14 @@ from fastapi import APIRouter
 from app.schemas.user import (
     UserCreate,
     UserResponse,
-    UpdateProfileRequest
+    UpdateProfileRequest,
+    PublicUserResponse
 )
-from app.services.user_service import register_user_service, update_profile_service
+from app.services.user_service import (
+    register_user_service, 
+    update_profile_service,
+    get_user_profile_service
+)
 from app.dependencies.auth import CurrentUser
 
 router = APIRouter(
@@ -35,4 +40,16 @@ async def update_profile(
     return await update_profile_service(
         current_user,
         profile_data
+    )
+    
+@router.get("/{username}", response_model=PublicUserResponse)
+async def get_user_profile(username: str):
+    
+    user = await get_user_profile_service(username)
+    
+    return PublicUserResponse(
+        username=user.username,
+        name=user.name,
+        bio=user.bio,
+        avatar_url=user.avatar_url
     )
