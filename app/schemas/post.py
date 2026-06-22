@@ -10,3 +10,6 @@ class PostResponse(BaseModel):
     content: str
     image_url: str | None = None
     created_at: datetime
+
+class PostUpdate(BaseModel):
+    content: str | None = None

@@ -8,7 +8,8 @@ from app.exceptions.user_exception import (
 )
 
 from app.exceptions.post_exceptions import (
-    PostNotFoundException
+    PostNotFoundException,
+    PostOwnershipException
 )
 
 from app.exceptions.auth_exceptions import (
@@ -80,5 +81,17 @@ def register_exception_handlers(app: FastAPI):
             status_code=404,
             content={
                 "detail": "Post not found"
+            }
+        )
+        
+    @app.exception_handler(PostOwnershipException)
+    async def post_ownership_exception_handler(
+        request: Request,
+        exc: PostOwnershipException
+    ):
+        return JSONResponse(
+            status_code=403,
+            content= {
+                "detail": "You do not own this post"
             }
         )
