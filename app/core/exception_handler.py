@@ -15,6 +15,12 @@ from app.exceptions.post_exceptions import (
 from app.exceptions.auth_exceptions import (
     InvalidCredentialsException
 )
+
+from app.exceptions.upload_exceptions import (
+    InvalidImageException,
+    ImageUploadFailedException
+)
+
 from pip._vendor.requests.api import request
 from app.exceptions.post_exceptions import PostNotFoundException
 
@@ -93,5 +99,29 @@ def register_exception_handlers(app: FastAPI):
             status_code=403,
             content= {
                 "detail": "You do not own this post"
+            }
+        )
+    
+    @app.exception_handler(InvalidImageException)
+    async def invalid_image_exception_handler(
+        request: Request,
+        exc: InvalidImageException
+    ):
+        return JSONResponse(
+            status_code=400,
+            content= {
+                "detail": "Invalid image type"
+            }
+        )
+    
+    @app.exception_handler(ImageUploadFailedException)
+    async def image_upload_failed_exception_handler(
+        request: Request,
+        exc: ImageUploadFailedException
+    ):
+        return JSONResponse(
+            status_code=500,
+            content= {
+                "detail": "Image upload failed"
             }
         )
