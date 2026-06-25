@@ -6,6 +6,7 @@ from app.routes.user import router as user_router
 from app.routes.auth import router as auth_router
 from app.routes.post import router as post_router
 from app.routes.upload import router as upload_router
+from app.routes.feed import router as feed_router
 
 from app.core.exception_handler import (
     register_exception_handlers
@@ -25,3 +26,4 @@ app.include_router(user_router)
 app.include_router(auth_router)
 app.include_router(post_router)
 app.include_router(upload_router)
+app.include_router(feed_router)
