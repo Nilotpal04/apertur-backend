@@ -10,6 +10,11 @@ from app.services.post_service import (
     update_post_service,
     delete_post_service
 )
+from app.schemas.like import LikeResponse
+from app.services.like_service import (
+    like_post_service,
+    unlike_post_service
+)
 from app.dependencies.auth import CurrentUser
 
 router = APIRouter(
@@ -56,3 +61,29 @@ async def delete_post(
         post_id,
         current_user
     )
+    
+@router.post(
+    "/{post_id}/like",
+    response_model=LikeResponse
+)
+async def like_post(
+    post_id: str,
+    current_user: CurrentUser
+):
+    return await like_post_service(
+        post_id,
+        current_user
+    )
+    
+@router.delete(
+    "/{post_id}/like",
+    response_model=LikeResponse
+)
+async def unlike_post(
+    post_id: str,
+    current_user: CurrentUser
+):
+    return await unlike_post_service(
+        post_id,
+        current_user
+)

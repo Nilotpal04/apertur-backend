@@ -33,3 +33,26 @@ async def like_post_service(
         liked=True,
         likes_count= likes_count
     )
+    
+async def unlike_post_service(
+    post_id: str,
+    current_user: User
+):
+    post = await Post.get(post_id)
+    if not post:
+        raise PostNotFoundException()
+    
+    condition1 = Like.post_id == post_id
+    condition2 = Like.user_id == str(current_user.id)
+    
+    liked = await Like.find_one(condition1, condition2)
+    
+    if liked:
+        await liked.delete()
+    
+    likes_count = await Like.find(Like.post_id == post_id).count()
+    return LikeResponse(
+        liked= False,
+        likes_count=likes_count
+    )
+    
