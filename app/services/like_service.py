@@ -1,0 +1,35 @@
+from app.models.like import Like
+from app.models.post import Post
+from app.models.user import User
+
+
+from app.schemas.like import LikeResponse
+from app.exceptions.post_exceptions import (
+    PostNotFoundException
+)
+
+async def like_post_service(
+    post_id: str,
+    current_user: User
+):
+    post = await Post.get(post_id)
+    if not post:
+        raise PostNotFoundException()
+    
+    condition1 = Like.post_id == post_id
+    condition2 = Like.user_id == str(current_user.id)
+    
+    liked = await Like.find_one(condition1, condition2)
+    
+    if not liked:
+        like = Like(
+            user_id= str(current_user.id),
+            post_id= post_id,
+        )
+        await like.insert()
+        
+    likes_count = await Like.find(Like.post_id == post_id).count()
+    return LikeResponse(
+        liked=True,
+        likes_count= likes_count
+    )
