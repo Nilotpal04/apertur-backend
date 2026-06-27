@@ -1,7 +1,7 @@
 from app.models.user import User
 from app.models.post import Post
 from beanie.operators import In
-
+from app.models.like import Like
 from app.schemas.feed import (
     FeedPostResponse,
     FeedResponse
@@ -31,6 +31,14 @@ async def get_feed_service(
                 image_url= post.image_url
             )
             feed_posts.append(feed_post)
+    post_ids = {str(post.id) for post in posts}
+    likes = await Like.find(In(Like.post_id, list(post_ids))).to_list()
+    likes_count_map: dict[str, int] = {}
+
+    for like in likes:
+        likes_count_map[like.post_id] = (
+            likes_count_map.get(like.post_id, 0) + 1
+        )
     next_cursor = None
 
     if posts:
@@ -39,5 +47,7 @@ async def get_feed_service(
 
     return FeedResponse(
         posts=feed_posts,
-        next_cursor=next_cursor
+        next_cursor=next_cursor,
+        likes_count=likes_count_map.get(str(post.id), 0),
+        liked_by_user=None,
     )
