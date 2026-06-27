@@ -8,6 +8,7 @@ from app.schemas.feed import (
 )
 
 async def get_feed_service(
+    current_user: User | None = None,
     cursor: str | None = None,
     limit: int = 20
 ):
@@ -34,7 +35,15 @@ async def get_feed_service(
     post_ids = {str(post.id) for post in posts}
     likes = await Like.find(In(Like.post_id, list(post_ids))).to_list()
     likes_count_map: dict[str, int] = {}
+    
+    liked_posts = set()
 
+    if current_user:
+        liked_posts = {
+            like.post_id
+            for like in likes
+            if like.user_id == str(current_user.id)
+        }
     for like in likes:
         likes_count_map[like.post_id] = (
             likes_count_map.get(like.post_id, 0) + 1
@@ -49,5 +58,9 @@ async def get_feed_service(
         posts=feed_posts,
         next_cursor=next_cursor,
         likes_count=likes_count_map.get(str(post.id), 0),
-        liked_by_user=None,
+        liked_by_user=(
+            str(post.id) in liked_posts
+            if current_user
+            else None
+        )
     )
