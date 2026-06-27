@@ -4,6 +4,8 @@ import certifi
 from app.core.config import settings
 from app.models.user import User
 from app.models.post import Post
+from app.models.like import Like
+from app.models.follow import Follow
 
 client = AsyncIOMotorClient(
     settings.mongodb_url,
@@ -18,7 +20,9 @@ async def connect_to_mongodb():
         database=client.apertur_db,
         document_models=[
             User,
-            Post
+            Post,
+            Like,
+            Follow
         ]
     )
 

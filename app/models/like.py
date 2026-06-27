@@ -1,7 +1,7 @@
 from datetime import datetime
 from beanie import Document
 from pydantic import Field
-
+from pymongo import IndexModel, ASCENDING
 class Like(Document):
     user_id: str
     post_id: str
@@ -9,14 +9,14 @@ class Like(Document):
 
     class Settings:
         name = "likes"
-        
+
         indexes = [
-            [
-                ("user_id", 1),
-                ("post_id", 1),
-            ],
-            {
-                "name": "unique_user_post",
-                "unique": True,
-            }
+            IndexModel(
+                [
+                    ("user_id", ASCENDING),
+                    ("post_id", ASCENDING),
+                ],
+                unique=True,
+                name="unique_user_post",
+            )
         ]

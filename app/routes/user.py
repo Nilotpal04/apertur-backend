@@ -10,7 +10,12 @@ from app.services.user_service import (
     update_profile_service,
     get_user_profile_service
 )
+from app.services.follow_service import (
+    follow_user_service,
+    unfollow_user_service
+)
 
+from app.schemas.follow import FollowResponse
 from app.schemas.post import PostResponse
 from app.services.post_service import get_user_posts_service
 
@@ -61,3 +66,23 @@ async def get_user_profile(username: str):
 @router.get("/{username}/posts", response_model=list[PostResponse])
 async def get_user_posts(username: str):
     return await get_user_posts_service(username)
+
+@router.post("/{username}/follow", response_model=FollowResponse)
+async def follow_user(
+    username: str,
+    current_user: CurrentUser
+):
+    return await follow_user_service(
+        username,
+        current_user
+    )
+
+@router.delete("/{username}/follow", response_model=FollowResponse)
+async def unfollow_user(
+    username: str,
+    current_user: CurrentUser
+):
+    return await unfollow_user_service(
+        username,
+        current_user
+    )
