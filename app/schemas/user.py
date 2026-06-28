@@ -13,6 +13,9 @@ class  UserResponse(BaseModel):
     bio: str | None = None
     avatar_url: str | None = None
     
+    followers_count: int
+    following_count: int
+    
     created_at: datetime
 
 class UpdateProfileRequest(BaseModel):
@@ -25,3 +28,7 @@ class PublicUserResponse(BaseModel):
     name: str | None = None
     bio: str | None = None
     avatar_url: str | None = None
+    
+    followers_count: int
+    following_count: int
+    is_following: bool | None = None

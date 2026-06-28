@@ -10,6 +10,11 @@ from app.exceptions.user_exception import (
     UserNotFoundException
 )
 from app.core.security import hash_password
+from app.models.follow import Follow
+from app.schemas.user import (
+    UserResponse,
+    PublicUserResponse
+)
 
 async def register_user_service(user_data: UserCreate):
     
@@ -59,7 +64,8 @@ async def update_profile_service(
     return user
 
 async def get_user_profile_service(
-    username: str,    
+    username: str,
+    current_user: User | None    
 ):
     user = await User.find_one(
         User.username == username
@@ -67,4 +73,48 @@ async def get_user_profile_service(
     if not user:
         raise UserNotFoundException()
     
-    return user
+    followers_count = await Follow.find(
+        Follow.following_id == str(user.id)
+    ).count()
+    following_count = await Follow.find(
+        Follow.follower_id == str(user.id)
+    ).count()
+    is_following = None
+    if current_user:
+        follow = await Follow.find_one(
+            Follow.follower_id == str(current_user.id),
+            Follow.following_id == str(user.id)
+        )
+        is_following = follow is not None
+        
+    return PublicUserResponse(
+        username=user.username,
+        name=user.name,
+        bio=user.bio,
+        avatar_url=user.avatar_url,
+        followers_count=followers_count,
+        following_count=following_count,
+        is_following=is_following
+    )
+
+async def get_current_user_service(
+    current_user: User
+):
+    followers_count = await Follow.find(
+        Follow.following_id == str(current_user.id)
+    ).count()
+
+    following_count = await Follow.find(
+        Follow.follower_id == str(current_user.id)
+    ).count()
+
+    return UserResponse(
+        id=str(current_user.id),
+        username=current_user.username,
+        email=current_user.email,
+        bio=current_user.bio,
+        avatar_url=current_user.avatar_url,
+        created_at=current_user.created_at,
+        followers_count=followers_count,
+        following_count=following_count
+    )
