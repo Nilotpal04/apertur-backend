@@ -9,6 +9,10 @@ from app.exceptions.user_exception import (
 from app.exceptions.follow_exceptions import (
     SelfFollowException
 )
+
+from app.services.notification import create_notification_service
+from app.enums.notification_type import NotificationType
+
 async def follow_user_service(
     username: str,
     current_user: User
@@ -32,6 +36,11 @@ async def follow_user_service(
         )
         
         await follow.insert()
+        await create_notification_service(
+            recipient_id=str(target_user.id),
+            actor_id=str(current_user.id),
+            notification_type=NotificationType.FOLLOW
+        )
     
     followers_count = await Follow.find(Follow.following_id == str(target_user.id)).count()
     

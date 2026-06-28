@@ -21,8 +21,8 @@ from app.exceptions.upload_exceptions import (
     ImageUploadFailedException
 )
 
-from pip._vendor.requests.api import request
 from app.exceptions.post_exceptions import PostNotFoundException
+from app.exceptions.notification_exceptions import NotificationNotFoundException
 
 def register_exception_handlers(app: FastAPI):
 
@@ -123,5 +123,17 @@ def register_exception_handlers(app: FastAPI):
             status_code=500,
             content= {
                 "detail": "Image upload failed"
+            }
+        )
+    
+    @app.exception_handler(NotificationNotFoundException)
+    async def notification_not_found_exception_handler(
+        request: Request,
+        exc: NotificationNotFoundException
+    ):
+        return JSONResponse(
+            status_code=404,
+            content= {
+                "detail": "Notification not found"
             }
         )

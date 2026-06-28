@@ -13,6 +13,9 @@ from app.schemas.feed import FeedPostResponse
 from app.exceptions.post_exceptions import PostNotFoundException
 from app.exceptions.user_exception import UserNotFoundException
 
+from app.services.notification import create_notification_service
+from app.enums.notification_type import NotificationType
+
 async def frame_post_service(
     post_id: str,
     current_user: User
@@ -33,6 +36,12 @@ async def frame_post_service(
         )
         
         await frame.insert()
+        await create_notification_service(
+            recipient_id=str(post.author_id),
+            actor_id=str(current_user.id),
+            notification_type=NotificationType.FRAME,
+            post_id=post_id
+        )
         
     frames_count = await Frame.find(Frame.post_id == post_id).count()
     return FrameResponse(

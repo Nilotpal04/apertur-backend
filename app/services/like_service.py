@@ -8,6 +8,9 @@ from app.exceptions.post_exceptions import (
     PostNotFoundException
 )
 
+from app.services.notification import create_notification_service
+from app.enums.notification_type import NotificationType
+
 async def like_post_service(
     post_id: str,
     current_user: User
@@ -27,7 +30,12 @@ async def like_post_service(
             post_id= post_id,
         )
         await like.insert()
-        
+        await create_notification_service(
+            recipient_id=str(post.author_id),
+            actor_id=str(current_user.id),
+            notification_type=NotificationType.LIKE,
+            post_id=post_id
+        )   
     likes_count = await Like.find(Like.post_id == post_id).count()
     return LikeResponse(
         liked=True,
