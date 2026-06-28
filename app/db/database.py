@@ -6,6 +6,7 @@ from app.models.user import User
 from app.models.post import Post
 from app.models.like import Like
 from app.models.follow import Follow
+from app.models.frame import Frame
 
 client = AsyncIOMotorClient(
     settings.mongodb_url,
@@ -22,7 +23,8 @@ async def connect_to_mongodb():
             User,
             Post,
             Like,
-            Follow
+            Follow,
+            Frame
         ]
     )
 

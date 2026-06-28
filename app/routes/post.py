@@ -11,9 +11,14 @@ from app.services.post_service import (
     delete_post_service
 )
 from app.schemas.like import LikeResponse
+from app.schemas.frame import FrameResponse
 from app.services.like_service import (
     like_post_service,
     unlike_post_service
+)
+from app.services.frame_service import (
+    frame_post_service,
+    unframe_post_service
 )
 from app.dependencies.auth import CurrentUser
 
@@ -87,3 +92,29 @@ async def unlike_post(
         post_id,
         current_user
 )
+    
+@router.post(
+    "/{post_id}/frame",
+    response_model=FrameResponse
+)
+async def frame_post(
+    post_id: str,
+    current_user: CurrentUser
+):
+    return await frame_post_service(
+        post_id,
+        current_user
+    )
+
+@router.delete(
+    "/{post_id}/frame",
+    response_model=FrameResponse
+)
+async def unframe_post(
+    post_id: str,
+    current_user: CurrentUser
+):
+    return await unframe_post_service(
+        post_id,
+        current_user
+    )
