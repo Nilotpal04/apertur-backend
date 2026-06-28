@@ -73,12 +73,8 @@ async def get_user_profile_service(
     if not user:
         raise UserNotFoundException()
     
-    followers_count = await Follow.find(
-        Follow.following_id == str(user.id)
-    ).count()
-    following_count = await Follow.find(
-        Follow.follower_id == str(user.id)
-    ).count()
+    followers_count = await Follow.find(Follow.following_id == str(user.id)).count()
+    following_count = await Follow.find(Follow.follower_id == str(user.id)).count()
     is_following = None
     if current_user:
         follow = await Follow.find_one(
@@ -100,13 +96,9 @@ async def get_user_profile_service(
 async def get_current_user_service(
     current_user: User
 ):
-    followers_count = await Follow.find(
-        Follow.following_id == str(current_user.id)
-    ).count()
+    followers_count = await Follow.find(Follow.following_id == str(current_user.id)).count()
 
-    following_count = await Follow.find(
-        Follow.follower_id == str(current_user.id)
-    ).count()
+    following_count = await Follow.find(Follow.follower_id == str(current_user.id)).count()
 
     return UserResponse(
         id=str(current_user.id),

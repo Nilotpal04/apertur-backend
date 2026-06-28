@@ -25,6 +25,12 @@ from app.dependencies.auth import (
     OptionalCurrentUser
 )
 
+from app.services.frame_service import (
+    get_user_frames_service
+)
+
+from app.schemas.feed import FeedPostResponse
+
 
 router = APIRouter(
     prefix="/users",
@@ -92,4 +98,15 @@ async def unfollow_user(
     return await unfollow_user_service(
         username,
         current_user
+    )
+
+@router.get(
+    "/{username}/frames",
+    response_model=list[FeedPostResponse]
+)
+async def get_user_frames(
+    username: str
+):
+    return await get_user_frames_service(
+        username
     )
