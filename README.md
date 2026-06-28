@@ -67,6 +67,22 @@ Backend API for Apertur, a photography-first social platform inspired by visual 
 * Self Follow Protection
 * Followers Count
 
+### 🖼️ Frame System
+
+* Frame Posts
+* Unframe Posts
+* Idempotent Frame System
+* Frame Counts
+* View User Frames
+
+### 🔔 Notifications
+
+* Event-Based Notification System
+* Follow Notifications
+* Like Notifications
+* Frame Notifications
+* Notification Feed
+* Mark Notifications as Read
 
 ## Project Structure
 
@@ -91,11 +107,11 @@ app/
 * [x] Feed
 * [x] Likes
 * [x] Follow System
-* [ ] Frame System
-* [ ] Collections
-* [ ] Notifications
+* [x] Frame System
+* [x] Notifications
 * [ ] Username Search
 * [ ] Profile View Counts
+* [ ] Collections
 
 ## 🛠️ Running Locally
 
@@ -123,4 +139,4 @@ uvicorn app.main:app --reload
 
 ## 📌 Status
 
-Apertur Backend is currently under active development as the backend powering a photography-focused social platform. The current implementation includes authentication, image uploads, post management, an optimized public feed, likes, and a follow system, with additional social and discovery features planned for Version 1.
+Apertur Backend is currently under active development as the backend powering a photography-focused social platform. The current implementation includes authentication, image uploads, post management, an optimized public feed, likes, follows, frames, and an event-driven notification system, with additional social and discovery features planned for Version 1.
