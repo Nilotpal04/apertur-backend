@@ -7,6 +7,10 @@ class Post(Document):
     content: str
     image_url: str | None = None
     
+    latitude: float | None = None
+    longitude: float | None = None
+    location_name: str | None = None
+    
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
     

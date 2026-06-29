@@ -18,7 +18,11 @@ async def create_post_service(post_data: PostCreate, current_user: User):
     post = Post(
         author_id=str(current_user.id),
         content=post_data.content,
-        image_url=post_data.image_url
+        image_url=post_data.image_url,
+        
+        latitude=post_data.latitude,
+        longitude=post_data.longitude,
+        location_name=post_data.location_name,
     )
     
     await post.insert()
@@ -27,18 +31,26 @@ async def create_post_service(post_data: PostCreate, current_user: User):
         id=str(post.id),
         content=post.content,
         image_url=post.image_url,
-        created_at=post.created_at
+        created_at=post.created_at,
+        
+        latitude=post.latitude,
+        longitude=post.longitude,
+        location_name=post.location_name,
     )
 
 async def get_post_service(post_id: str):
     post = await Post.get(post_id)
     if not post:
         raise PostNotFoundException()
+    
     return PostResponse(
         id=str(post.id),
         content=post.content,
         image_url=post.image_url,
-        created_at=post.created_at
+        created_at=post.created_at,
+        latitude=post.latitude,
+        longitude=post.longitude,
+        location_name=post.location_name,
     )
 
 async def get_user_posts_service(username: str):
@@ -58,7 +70,10 @@ async def get_user_posts_service(username: str):
             id=str(post.id),
             content=post.content,
             image_url=post.image_url,
-            created_at=post.created_at
+            created_at=post.created_at,
+            latitude=post.latitude,
+            longitude=post.longitude,
+            location_name=post.location_name,
         ) for post in posts
     ]
     
@@ -86,7 +101,10 @@ async def update_post_service(
         id=str(post.id),
         content=post.content,
         image_url=post.image_url,
-        created_at=post.created_at
+        created_at=post.created_at,
+        latitude=post.latitude,
+        longitude=post.longitude,
+        location_name=post.location_name,
     )
     
 async def delete_post_service(
