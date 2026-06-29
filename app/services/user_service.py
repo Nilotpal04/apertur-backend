@@ -15,6 +15,7 @@ from app.schemas.user import (
     UserResponse,
     PublicUserResponse
 )
+from app.schemas.user import UserSearchResponse
 
 async def register_user_service(user_data: UserCreate):
     
@@ -110,3 +111,28 @@ async def get_current_user_service(
         followers_count=followers_count,
         following_count=following_count
     )
+    
+async def search_users_service(query: str):
+    query = query.strip()
+    if not query:
+        return []
+    if len(query) < 2:
+        return []
+    
+    users = await User.find(
+        {
+            "username": {
+                "$regex": query,
+                "$options": "i"
+            }
+        }
+    ).limit(20).to_list()
+    
+    return [
+        UserSearchResponse(
+            username=user.username,
+            name=user.name,
+            avatar_url=user.avatar_url
+        )
+        for user in users
+    ]

@@ -3,13 +3,15 @@ from app.schemas.user import (
     UserCreate,
     UserResponse,
     UpdateProfileRequest,
-    PublicUserResponse
+    PublicUserResponse,
+    UserSearchResponse
 )
 from app.services.user_service import (
     register_user_service, 
     update_profile_service,
     get_user_profile_service,
-    get_current_user_service
+    get_current_user_service,
+    search_users_service
 )
 from app.services.follow_service import (
     follow_user_service,
@@ -50,6 +52,10 @@ async def update_profile(
         current_user,
         profile_data
     )
+    
+@router.get("/search",response_model=list[UserSearchResponse])
+async def search_users(q: str):
+        return await search_users_service(q)
     
 @router.get("/{username}", response_model=PublicUserResponse)
 async def get_user_profile(

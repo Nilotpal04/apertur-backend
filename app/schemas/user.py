@@ -32,3 +32,8 @@ class PublicUserResponse(BaseModel):
     followers_count: int
     following_count: int
     is_following: bool | None = None
+    
+class UserSearchResponse(BaseModel):
+    username: str
+    name: str | None = None
+    avatar_url: str | None = None
