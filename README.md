@@ -129,8 +129,7 @@ source .venv/bin/activate
 # 3️⃣ Install dependencies
 pip install -r requirements.txt
 
-# 4️⃣ Create .env file with your credentials
-# Use your preferred text editor to create and edit .env
+# 4️⃣ Create a .env file and configure your environment variables
 
 # 5️⃣ Run the development server
 uvicorn app.main:app --reload
