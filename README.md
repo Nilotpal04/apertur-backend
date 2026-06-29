@@ -15,7 +15,7 @@ Backend API for Apertur, a photography-first social platform inspired by visual 
 
 ## ✨ Features
 
-### 🔐 Authentication
+### Authentication
 
 * User Registration
 * User Login
@@ -25,25 +25,25 @@ Backend API for Apertur, a photography-first social platform inspired by visual 
 * Current User Authentication
 * Optional Authentication for Public Endpoints
 
-### 👤 User Profiles
+### User Profiles
 
 * View Public Profiles
 * Get Current User Profile
 * Update Profile
 
-### 🖼️ Image Uploads
+### Image Uploads
 
 * Upload Images to Cloudinary
 * Store Image URLs
 
-### 📝 Posts
+### Posts
 
 * Create Post
 * Get Post by ID
 * Update Post
 * Delete Post
 
-### 📰 Feed
+### Feed
 
 * Public Feed
 * Cursor-Based Pagination (MongoDB ObjectId)
@@ -51,7 +51,7 @@ Backend API for Apertur, a photography-first social platform inspired by visual 
 * Optimized User Lookup
 * Optimized Like Aggregation
 
-### ❤️ Likes
+### Likes
 
 * Like Posts
 * Unlike Posts
@@ -59,7 +59,7 @@ Backend API for Apertur, a photography-first social platform inspired by visual 
 * Like Counts
 * Personalized Feed (`liked_by_user`)
 
-### 👥 Follow System
+### Follow System
 
 * Follow Users
 * Unfollow Users
@@ -67,7 +67,7 @@ Backend API for Apertur, a photography-first social platform inspired by visual 
 * Self Follow Protection
 * Followers Count
 
-### 🖼️ Frame System
+### Frame System
 
 * Frame Posts
 * Unframe Posts
@@ -75,7 +75,7 @@ Backend API for Apertur, a photography-first social platform inspired by visual 
 * Frame Counts
 * View User Frames
 
-### 🔔 Notifications
+### Notifications
 
 * Event-Based Notification System
 * Follow Notifications
@@ -96,7 +96,7 @@ app/
 |-- exceptions/  
 |-- db/  
 
-## 🛣️ Roadmap
+## Roadmap
 
 ### Version 1
 
