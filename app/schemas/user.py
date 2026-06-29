@@ -12,7 +12,7 @@ class  UserResponse(BaseModel):
     email: EmailStr
     bio: str | None = None
     avatar_url: str | None = None
-    
+    profile_views_count: int
     followers_count: int
     following_count: int
     
@@ -32,7 +32,7 @@ class PublicUserResponse(BaseModel):
     followers_count: int
     following_count: int
     is_following: bool | None = None
-    
+    profile_views_count: int
 class UserSearchResponse(BaseModel):
     username: str
     name: str | None = None

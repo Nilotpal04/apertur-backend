@@ -16,6 +16,7 @@ from app.schemas.user import (
     PublicUserResponse
 )
 from app.schemas.user import UserSearchResponse
+from app.models.profile_view import ProfileView
 
 async def register_user_service(user_data: UserCreate):
     
@@ -74,8 +75,15 @@ async def get_user_profile_service(
     if not user:
         raise UserNotFoundException()
     
+    if not current_user or str(current_user.id) != str(user.id):
+        await ProfileView(
+            profile_id=str(user.id)
+        ).insert()
+        
     followers_count = await Follow.find(Follow.following_id == str(user.id)).count()
     following_count = await Follow.find(Follow.follower_id == str(user.id)).count()
+    profile_views_count = await ProfileView.find(ProfileView.profile_id == str(user.id)).count()
+    
     is_following = None
     if current_user:
         follow = await Follow.find_one(
@@ -91,6 +99,7 @@ async def get_user_profile_service(
         avatar_url=user.avatar_url,
         followers_count=followers_count,
         following_count=following_count,
+        profile_views_count=profile_views_count,
         is_following=is_following
     )
 
@@ -98,9 +107,9 @@ async def get_current_user_service(
     current_user: User
 ):
     followers_count = await Follow.find(Follow.following_id == str(current_user.id)).count()
-
     following_count = await Follow.find(Follow.follower_id == str(current_user.id)).count()
-
+    profile_views_count = await ProfileView.find(ProfileView.profile_id == str(user.id)).count()
+    
     return UserResponse(
         id=str(current_user.id),
         username=current_user.username,
@@ -109,6 +118,7 @@ async def get_current_user_service(
         avatar_url=current_user.avatar_url,
         created_at=current_user.created_at,
         followers_count=followers_count,
+        profile_views_count=profile_views_count,
         following_count=following_count
     )
     
@@ -136,3 +146,4 @@ async def search_users_service(query: str):
         )
         for user in users
     ]
+    
