@@ -67,13 +67,6 @@ async def get_user_profile(
         current_user
     )
     
-    return PublicUserResponse(
-        username=user.username,
-        name=user.name,
-        bio=user.bio,
-        avatar_url=user.avatar_url
-    )
-    
 @router.get("/me", response_model=UserResponse)
 async def get_me(
     current_user: CurrentUser
